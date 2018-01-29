@@ -39,7 +39,7 @@ Game.prototype.getScore = function(){
 
 var Card = function(icon){
     this.icon = icon;
-    var elem = generateElem();
+    this.elem = this.generateElem();
 };
 
 // Generate the HTMML element of the card 
@@ -47,7 +47,7 @@ Card.prototype.generateElem = function(){
     var liElem = document.createElement('li');
     liElem.className = 'Card';
     var iElem = document.createElement('i');
-    iElem.className = 'fa fa-${this.icon}';
+    iElem.className = 'fa fa-' + this.icon;
     liElem.appendChild(iElem);
     return liElem;
 };
@@ -100,8 +100,8 @@ function shuffle(array) {
 
 var icons = ['diamond','paper-plane-o','anchor','bolt','cube','leaf','bicycle','bomb'];
 var deckElem = document.getElementsByClassName('deck')[0];
-Game(icons,deckElem);
-Game.init();
+var game = new Game(icons,deckElem);
+game.init();
 
 /*
  * 设置一张卡片的事件监听器。 如果该卡片被点击：
