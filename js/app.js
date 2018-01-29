@@ -16,7 +16,7 @@ Game.prototype.init = function(){
     shuffle(self.icons); 
     self.icons.map(function(icon){
         var card = new Card(icon);
-        this.deckElem.appendChild(card.elem);
+        self.deckElem.appendChild(card.elem);
         card.elem.addEventListener('click',function(){
             card.open();
             opens.push(card);
@@ -32,10 +32,11 @@ Game.prototype.init = function(){
                     // TODO: checkout the close animation
                 }
                 else{
-                    
+                    unMatchedCard.match();
+                    card.match();
                 }
             }
-            if (opens.length == 1) {
+            if (opens.length == icons.length) {
                 // TODO: set result animation
                 self.showResult();
             }
@@ -79,6 +80,10 @@ Card.prototype.open = function(){
 
 Card.prototype.close = function(){
     this.elem.className = "card";
+};
+
+Card.prototype.match = function(){
+    this.elem.className = "card match";
 };
 
 
