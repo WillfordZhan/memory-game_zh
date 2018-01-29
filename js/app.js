@@ -13,8 +13,10 @@ Game.prototype.init = function(){
     var time = 0;
     var moves = 0;
     var opens = [];
+    shuffle(this.icons); 
     self.icons.map(function(icon){
-        var card = new card(icon);
+        var card = new Card(icon);
+        this.deckElem.appendChild(card.elem);
         card.elem.addEventListener('click',function(){
             card.check();
         });
@@ -35,15 +37,15 @@ Game.prototype.getScore = function(){
 
 
 
-var card = function(icon){
+var Card = function(icon){
     this.icon = icon;
     var elem = generateElem();
 };
 
 // Generate the HTMML element of the card 
-card.prototype.generateElem = function(){
+Card.prototype.generateElem = function(){
     var liElem = document.createElement('li');
-    liElem.className = 'card';
+    liElem.className = 'Card';
     var iElem = document.createElement('i');
     iElem.className = 'fa fa-${this.icon}';
     liElem.appendChild(iElem);
@@ -51,19 +53,19 @@ card.prototype.generateElem = function(){
 };
 
 // Judge whether 2 cards match
-card.prototype.isMatch = function(icon){
+Card.prototype.isMatch = function(icon){
     if (opens[length - 1] == icon) {
         return true;
     }
     return false;
 };
 
-card.prototype.check = function(){
-    this.elem.className = "card open show";
+Card.prototype.check = function(){
+    this.elem.className = "Card open show";
     opens.push(this.icon);
     if (opens.length % 2 == 0) {
         if (!isMatch(this.icon)) {
-            this.elem.className = "card";
+            this.elem.className = "Card";
             // TODO: checkout the false match animation
         }
         else{
@@ -95,6 +97,11 @@ function shuffle(array) {
 
     return array;
 }
+
+var icons = ['diamond','paper-plane-o','anchor','bolt','cube','leaf','bicycle','bomb'];
+var deckElem = document.getElementsByClassName('deck')[0];
+Game(icons,deckElem);
+Game.init();
 
 /*
  * 设置一张卡片的事件监听器。 如果该卡片被点击：
