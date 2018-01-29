@@ -18,10 +18,23 @@ Game.prototype.init = function(){
         var card = new Card(icon);
         this.deckElem.appendChild(card.elem);
         card.elem.addEventListener('click',function(){
-            card.check();
+            card.open();
+            // Judge if 2 cards match
+            if (opens.length % 2 == 0) {
+                if (opens[opens.length - 1] != icon) {
+                    console.log(opens[opens.length - 1])
+                    card.close();
+                    // TODO: checkout the close animation
+                }
+                else{
+                    opens.pop();
+                    opens.pop();
+                }
+            }
         });
     });
 };
+
 
 Game.prototype.showResult = function(){
     // Show result after game is over
@@ -45,34 +58,19 @@ var Card = function(icon){
 // Generate the HTMML element of the card 
 Card.prototype.generateElem = function(){
     var liElem = document.createElement('li');
-    liElem.className = 'Card';
+    liElem.className = 'card';
     var iElem = document.createElement('i');
     iElem.className = 'fa fa-' + this.icon;
     liElem.appendChild(iElem);
     return liElem;
 };
 
-// Judge whether 2 cards match
-Card.prototype.isMatch = function(icon){
-    if (opens[length - 1] == icon) {
-        return true;
-    }
-    return false;
+Card.prototype.open = function(){
+    this.elem.className = "card open show";
 };
 
-Card.prototype.check = function(){
-    this.elem.className = "Card open show";
-    opens.push(this.icon);
-    if (opens.length % 2 == 0) {
-        if (!isMatch(this.icon)) {
-            this.elem.className = "Card";
-            // TODO: checkout the false match animation
-        }
-        else{
-            opens.pop();
-            opens.pop();
-        }
-    }
+Card.prototype.close = function(){
+    this.elem.className = "card";
 };
 
 
