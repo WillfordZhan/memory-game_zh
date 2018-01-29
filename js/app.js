@@ -11,6 +11,8 @@ var Game = function(icons,deckElem){
 Game.prototype.init = function(){
     var self = this;
     var time = 0;
+    var time_count;
+    timeCount(time);
     var moves = 0;
     var opens = [];
     shuffle(self.icons); 
@@ -22,9 +24,9 @@ Game.prototype.init = function(){
             opens.push(card);
             // Judge if 2 cards match
             if (opens.length % 2 == 0) {
+                moves++;
                 var unMatchedCard = opens[opens.length - 2];
                 if (unMatchedCard.icon != icon) {
-                    console.log(opens[opens.length - 1]);
                     unMatchedCard.close();
                     card.close();
                     opens.pop();
@@ -38,7 +40,8 @@ Game.prototype.init = function(){
             }
             if (opens.length == icons.length) {
                 // TODO: set result animation
-                self.showResult();
+                timeStop(time_count);
+                self.showResult(moves, time);
             }
         });
     });
@@ -86,6 +89,14 @@ Card.prototype.match = function(){
     this.elem.className = "card match";
 };
 
+function timeCount(time,time_count){
+    time = time + 1;
+    time_count = setTimeout(timeCount,1000);
+}
+
+function timeStop(time_count){
+    clearTimeout(time_count);
+}
 
 /*
  * 显示页面上的卡片
