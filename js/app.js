@@ -10,11 +10,11 @@ var Game = function(icons,deckElem){
 // Initializing the Game 
 Game.prototype.init = function(){
     var self = this;
+    var moves = 0;
+    var opens = [];
     var time = 0;
     var time_count;
     timeCount(time);
-    var moves = 0;
-    var opens = [];
     shuffle(self.icons); 
     self.icons.map(function(icon){
         var card = new Card(icon);
@@ -47,9 +47,9 @@ Game.prototype.init = function(){
     });
 };
 
-
-Game.prototype.showResult = function(){
-    // Show result after game is over
+// Show result after game is over
+Game.prototype.showResult = function(moves,time){
+    
 };
 
 Game.prototype.restart = function(){
@@ -122,6 +122,7 @@ function shuffle(array) {
 
 var icons = ['diamond','paper-plane-o','anchor','bolt','cube','leaf','bicycle','bomb','diamond','paper-plane-o','anchor','bolt','cube','leaf','bicycle','bomb'];
 var deckElem = document.getElementsByClassName('deck')[0];
+// TOASK: how to find the dom by class without returning a array
 var game = new Game(icons,deckElem);
 game.init();
 
