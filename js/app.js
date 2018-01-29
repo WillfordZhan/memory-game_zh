@@ -2,6 +2,59 @@
  * 创建一个包含所有卡片的数组
  */
 
+var Game = function(icons,deckElem){
+    this.icons = icons;
+    this.deckElem = deckElem;
+};
+
+// Initializing the Game 
+Game.prototype.init = function(){
+    
+    var self = this;
+    var time = 0;
+    var moves = 0;
+    var open = [];
+    self.icons.map(function(){
+        var card = new card();
+        card.elem.addEventListener(function(){
+            
+        });
+    });
+};
+
+Game.prototype.restart = function(){
+    // restart the Game
+};
+
+Game.prototype.getScore = function(){
+    // generate score according to time and moves
+};
+
+
+
+var card = function(icon){
+    this.icon = icon;
+    var elem = generateElem();
+};
+
+card.prototype.generateElem = function(){
+    var liElem = document.createElement('li');
+    liElem.className = 'card';
+    var iElem = document.createElement('i');
+    iElem.className = 'fa fa-${this.icon}';
+    liElem.appendChild(iElem);
+    return liElem;
+};
+
+card.prototype.isMatch = function(){
+    // Judge whether 2 cards match
+    return true;
+};
+
+card.prototype.open = function(){
+    
+};
+
 
 /*
  * 显示页面上的卡片
@@ -24,7 +77,6 @@ function shuffle(array) {
 
     return array;
 }
-
 
 /*
  * 设置一张卡片的事件监听器。 如果该卡片被点击：
