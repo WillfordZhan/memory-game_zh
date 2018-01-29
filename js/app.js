@@ -13,23 +13,31 @@ Game.prototype.init = function(){
     var time = 0;
     var moves = 0;
     var opens = [];
-    shuffle(this.icons); 
+    shuffle(self.icons); 
     self.icons.map(function(icon){
         var card = new Card(icon);
         this.deckElem.appendChild(card.elem);
         card.elem.addEventListener('click',function(){
             card.open();
+            opens.push(card);
             // Judge if 2 cards match
             if (opens.length % 2 == 0) {
-                if (opens[opens.length - 1] != icon) {
-                    console.log(opens[opens.length - 1])
+                var unMatchedCard = opens[opens.length - 2];
+                if (unMatchedCard.icon != icon) {
+                    console.log(opens[opens.length - 1]);
+                    unMatchedCard.close();
                     card.close();
+                    opens.pop();
+                    opens.pop();
                     // TODO: checkout the close animation
                 }
                 else{
-                    opens.pop();
-                    opens.pop();
+                    
                 }
+            }
+            if (opens.length == 1) {
+                // TODO: set result animation
+                self.showResult();
             }
         });
     });
@@ -96,7 +104,7 @@ function shuffle(array) {
     return array;
 }
 
-var icons = ['diamond','paper-plane-o','anchor','bolt','cube','leaf','bicycle','bomb'];
+var icons = ['diamond','paper-plane-o','anchor','bolt','cube','leaf','bicycle','bomb','diamond','paper-plane-o','anchor','bolt','cube','leaf','bicycle','bomb'];
 var deckElem = document.getElementsByClassName('deck')[0];
 var game = new Game(icons,deckElem);
 game.init();
