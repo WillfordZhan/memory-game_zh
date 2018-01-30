@@ -2,6 +2,51 @@
  * 创建一个包含所有卡片的数组
  */
 
+var GamePanel = function(starElem, moveElem){
+    this.starElem = starElem;
+    this.stars = [];
+    // TODO: refactoring
+    this.moveElem = moveElem;
+};
+
+GamePanel.prototype.init = function(moves){
+    // the stars module
+    var starLi = document.createElement('li');
+    var starI = document.createElement('i');
+    starLi.className = "fa fa-star";
+    starLi.appendChild(starI);
+    for (let i = 0; i < 3; i++) {
+        this.stars.push(starLi);
+        this.starElem.appendChild(starLi);
+    }
+    // the moves module
+    this.moveElem.innerHTML("0");
+};
+
+GamePanel.prototype.updateScore = function(time,moves){
+    // TODO: find the empty star class
+    this.moveElem.innerHTML(moves);
+    if (time <= 30 && moves <= 16) {
+
+    }
+    else if (time <= 40 && moves <= 25) {
+        this.stars[2].className = "fa fa-star empty";
+        this.starElem.innerHTML('');
+        for (let i = 0; i < 3; i++) {
+            this.starElem.appendChild(starLi);
+        }
+    }
+    else{
+        this.stars[1].className = "fa fa-star empty";
+        this.stars[2].className = "fa fa-star empty";
+
+        this.starElem.innerHTML('');
+        for (let i = 0; i < 3; i++) {
+            this.starElem.appendChild(starLi);
+        }
+    }
+};
+
 var Game = function(icons,deckElem){
     this.icons = icons;
     this.deckElem = deckElem;
