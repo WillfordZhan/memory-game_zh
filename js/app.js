@@ -11,13 +11,13 @@ var GamePanel = function(panel){
 
 GamePanel.prototype.init = function(moves){
     // the stars module
-    var starLi = document.createElement('li');
-    var starI = document.createElement('i');
-    starLi.className = "fa fa-star";
-    starLi.appendChild(starI);
+    var stars = this.stars;
     for (let i = 0; i < 3; i++) {
-        this.stars.push(starLi);
-        this.starElem.appendChild(this.stars[i]);
+        stars[i] = document.createElement('li');
+        var starI = document.createElement('i');
+        stars[i].className = "fa fa-star";
+        stars[i].appendChild(starI);
+        this.starElem.appendChild(stars[i]);
     }
     // the moves module
     this.moveElem.innerHTML = '';
