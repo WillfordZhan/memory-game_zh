@@ -17,7 +17,7 @@ GamePanel.prototype.init = function(moves){
     starLi.appendChild(starI);
     for (let i = 0; i < 3; i++) {
         this.stars.push(starLi);
-        this.starElem.appendChild(starLi);
+        this.starElem.appendChild(this.stars[i]);
     }
     // the moves module
     this.moveElem.innerHTML = '';
@@ -26,14 +26,14 @@ GamePanel.prototype.init = function(moves){
 GamePanel.prototype.updateScore = function(time,moves){
     // TODO: find the empty star class
     this.moveElem.innerHTML = moves;
-    if (time <= 30 && moves <= 16) {
+    if (time <= 30 && moves <= 1) {
 
     }
-    else if (time <= 40 && moves <= 25) {
+    else if (time <= 40 && moves <= 2) {
         this.stars[2].className = "fa fa-star empty";
         this.starElem.innerHTML = '';
         for (let i = 0; i < 3; i++) {
-            this.starElem.appendChild(starLi);
+            this.starElem.appendChild(this.stars[i]);
         }
     }
     else{
@@ -42,7 +42,7 @@ GamePanel.prototype.updateScore = function(time,moves){
 
         this.starElem.innerHTML = '';
         for (let i = 0; i < 3; i++) {
-            this.starElem.appendChild(starLi);
+            this.starElem.appendChild(this.stars[i]);
         }
     }
 };
@@ -55,6 +55,7 @@ var Game = function(icons,deckElem,gamePanel){
 
 // Initializing the Game 
 Game.prototype.init = function(){
+    this.panel.init();
     var self = this;
     var moves = 0;
     var opens = [];
