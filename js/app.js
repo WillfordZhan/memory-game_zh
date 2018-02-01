@@ -7,6 +7,7 @@ var GamePanel = function(panel){
     this.stars = [];
     // TODO: refactoring
     this.moveElem = panel.getElementsByClassName("moves")[0];
+    this.restart = panel.getElementsByClassName("restart")[0];
 };
 
 GamePanel.prototype.init = function(moves){
@@ -21,6 +22,9 @@ GamePanel.prototype.init = function(moves){
     }
     // the moves module
     this.moveElem.innerHTML = '';
+
+    // the restart module
+    restartInit(this.restart);
 };
 
 GamePanel.prototype.updateScore = function(moves){
@@ -87,7 +91,7 @@ Game.prototype.init = function(){
                     }
                 }
                 self.panel.updateScore(moves);
-                if (opens.length == icons.length) {
+                if (opens.length == icon.length) {
                     // TODO: set result animation
                     self.showResult(moves);
                 }
@@ -99,11 +103,15 @@ Game.prototype.init = function(){
 
 // Show result after game is over
 Game.prototype.showResult = function(moves){
-    
+    var gameBody = this.deckElem.parentNode;
+    gameBody.className = "container empty";
+    // TODO: write the showResult output
+
 };
 
 Game.prototype.restart = function(){
     // Restart the Game
+    history.go(0);
 };
 
 
@@ -138,6 +146,19 @@ Card.prototype.match = function(){
     this.elem.className = "card match";
 };
 
+
+/**
+ * @description - the function to register restart feature
+ * @param {*object} element - the button which needs to register restart feature  
+ */
+function restartInit(element) {
+    element.addEventListener('click',function() {
+        var isRestart = confirm("Restart will discard the current progress, are you sure to restart the game ?");
+        if (isRestart == true) {
+            history.go(0);
+        }
+    });
+}
 
 /*
  * 显示页面上的卡片
