@@ -23,13 +23,13 @@ GamePanel.prototype.init = function(moves){
     this.moveElem.innerHTML = '';
 };
 
-GamePanel.prototype.updateScore = function(time,moves){
+GamePanel.prototype.updateScore = function(moves){
     // TODO: find the empty star class
     this.moveElem.innerHTML = moves;
-    if (time <= 30 && moves <= 1) {
+    if (moves <= 1) {
 
     }
-    else if (time <= 40 && moves <= 2) {
+    else if (moves <= 2) {
         this.stars[2].className = "fa fa-star empty";
         this.starElem.innerHTML = '';
         for (let i = 0; i < 3; i++) {
@@ -59,9 +59,6 @@ Game.prototype.init = function(){
     var self = this;
     var moves = 0;
     var opens = [];
-    var time = 0;
-    var time_count;
-    timeCount(time);
     shuffle(self.icons); 
     self.icons.map(function(icon){
         var card = new Card(icon);
@@ -89,11 +86,10 @@ Game.prototype.init = function(){
                         }
                     }
                 }
-                self.panel.updateScore(time,moves);
+                self.panel.updateScore(moves);
                 if (opens.length == icons.length) {
                     // TODO: set result animation
-                    timeStop(time_count);
-                    self.showResult(moves, time);
+                    self.showResult(moves);
                 }
             }
             
@@ -102,7 +98,7 @@ Game.prototype.init = function(){
 };
 
 // Show result after game is over
-Game.prototype.showResult = function(moves,time){
+Game.prototype.showResult = function(moves){
     
 };
 
@@ -142,14 +138,6 @@ Card.prototype.match = function(){
     this.elem.className = "card match";
 };
 
-function timeCount(time,time_count){
-    time = time + 1;
-    time_count = setTimeout(timeCount,1000);
-}
-
-function timeStop(time_count){
-    clearTimeout(time_count);
-}
 
 /*
  * 显示页面上的卡片
