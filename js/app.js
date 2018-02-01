@@ -67,31 +67,36 @@ Game.prototype.init = function(){
         var card = new Card(icon);
         self.deckElem.appendChild(card.elem);
         card.elem.addEventListener('click',function(){
-            card.open();
-            opens.push(card);
-            // Judge if 2 cards match
-            // TODO: set the delay on opening the 2nd card
-            if (opens.length % 2 == 0) {
-                moves++;
-                var unMatchedCard = opens[opens.length - 2];
-                if (unMatchedCard.icon != icon) {
-                    unMatchedCard.close();
-                    card.close();
-                    opens.pop();
-                    opens.pop();
-                    // TODO: checkout the close animation
+            if (card.isOpen == false) {
+                card.open();
+                opens.push(card);
+                // Judge if 2 cards match
+                // TODO: set the delay on opening the 2nd card
+                if (opens.length % 2 == 0) {
+                    if (card.isMatch != true) {
+                        moves++;
+                        var unMatchedCard = opens[opens.length - 2];
+                        if (unMatchedCard.icon != icon) {
+                            unMatchedCard.close();
+                            card.close();
+                            opens.pop();
+                            opens.pop();
+                            // TODO: checkout the close animation
+                        }
+                        else {
+                            unMatchedCard.match();
+                            card.match();
+                        }
+                    }
                 }
-                else{
-                    unMatchedCard.match();
-                    card.match();
+                self.panel.updateScore(time,moves);
+                if (opens.length == icons.length) {
+                    // TODO: set result animation
+                    timeStop(time_count);
+                    self.showResult(moves, time);
                 }
             }
-            self.panel.updateScore(time,moves);
-            if (opens.length == icons.length) {
-                // TODO: set result animation
-                timeStop(time_count);
-                self.showResult(moves, time);
-            }
+            
         });
     });
 };
@@ -103,10 +108,6 @@ Game.prototype.showResult = function(moves,time){
 
 Game.prototype.restart = function(){
     // Restart the Game
-};
-
-Game.prototype.getScore = function(){
-    // Generate score according to time and moves
 };
 
 
@@ -133,6 +134,7 @@ Card.prototype.open = function(){
 };
 
 Card.prototype.close = function(){
+    this.isOpen = false;
     this.elem.className = "card";
 };
 
