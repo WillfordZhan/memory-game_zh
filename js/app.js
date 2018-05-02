@@ -21,7 +21,7 @@ GamePanel.prototype.init = function(moves){
         this.starElem.appendChild(stars[i]);
     }
     // the moves module
-    this.moveElem.innerHTML = '';
+    this.moveElem.innerHTML = '0';
 
     // the restart module
     restartInit(this.restart);
@@ -30,10 +30,10 @@ GamePanel.prototype.init = function(moves){
 GamePanel.prototype.updateScore = function(moves){
     // TODO: find the empty star class
     this.moveElem.innerHTML = moves;
-    if (moves <= 1) {
+    if (moves <= 16) {
 
     }
-    else if (moves <= 2) {
+    else if (moves <= 25) {
         this.stars[2].className = "fa fa-star empty";
         this.starElem.innerHTML = '';
         for (let i = 0; i < 3; i++) {
@@ -104,9 +104,21 @@ Game.prototype.init = function(){
 // Show result after game is over
 Game.prototype.showResult = function(moves){
     var gameBody = this.deckElem.parentNode;
+    var star;
+    if (moves <= 16) {
+        star = 3
+    } else if (moves <= 25) {
+        star = 2;
+    } else {
+        star = 1;
+    }
+    var rankString = "You used " + moves + " moves and gained a "+ star +"-star, Woooo !!!"
     gameBody.className = "container empty";
-    // TODO: write the showResult output
-
+    swal("Congradulations! You won!",rankString, "success", {
+        button: "Play again!",
+      }).then((result) => {
+          history.go(0);
+      });
 };
 
 Game.prototype.restart = function(){
@@ -152,11 +164,21 @@ Card.prototype.match = function(){
  * @param {*object} element - the button which needs to register restart feature  
  */
 function restartInit(element) {
+    
     element.addEventListener('click',function() {
-        var isRestart = confirm("Restart will discard the current progress, are you sure to restart the game ?");
-        if (isRestart == true) {
-            history.go(0);
-        }
+        /*
+        swal({
+            title: "Restart?",
+            text: "The current progress will be discarded, are you sure to restart?",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((isConfirm) => {
+            if (isConfirm == true) {
+                history.go(0);
+            }
+          });
+          */
     });
 }
 
