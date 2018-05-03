@@ -145,17 +145,17 @@ Card.prototype.generateElem = function(){
 };
 
 Card.prototype.open = function(){
-    this.elem.className = "card open show";
+    this.elem.className = "card open show flipInY animated";
     this.isOpen = true;
 };
 
 Card.prototype.close = function(){
     this.isOpen = false;
-    this.elem.className = "card";
+    this.elem.className = "card open show flipOutY animated";
 };
 
 Card.prototype.match = function(){
-    this.elem.className = "card match";
+    this.elem.className = "card match tada animated";
 };
 
 
