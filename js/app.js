@@ -91,7 +91,7 @@ Game.prototype.init = function(){
                     }
                 }
                 self.panel.updateScore(moves);
-                if (opens.length == icon.length) {
+                if (opens.length == icons.length) {
                     // TODO: set result animation
                     self.showResult(moves);
                 }
@@ -166,7 +166,6 @@ Card.prototype.match = function(){
 function restartInit(element) {
     
     element.addEventListener('click',function() {
-        /*
         swal({
             title: "Restart?",
             text: "The current progress will be discarded, are you sure to restart?",
@@ -178,7 +177,6 @@ function restartInit(element) {
                 history.go(0);
             }
           });
-          */
     });
 }
 
