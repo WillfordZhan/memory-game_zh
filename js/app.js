@@ -72,7 +72,6 @@ Game.prototype.init = function(){
                 card.open();
                 opens.push(card);
                 // Judge if 2 cards match
-                // TODO: set the delay on opening the 2nd card
                 if (opens.length % 2 == 0) {
                     if (card.isMatch != true) {
                         moves++;
@@ -80,11 +79,11 @@ Game.prototype.init = function(){
                         if (unMatchedCard.icon != icon) {
                             card.unmatch();
                             unMatchedCard.unmatch();
+                            opens.pop();
+                            opens.pop();
                             setTimeout(() => {
                                 unMatchedCard.close();
                                 card.close();
-                                opens.pop();
-                                opens.pop();
                             }, 1000);
                             
                             // TODO: checkout the close animation
@@ -161,7 +160,6 @@ Card.prototype.close = function(){
 Card.prototype.unmatch = function(){
     this.isOpen = false;
     this.elem.className = "card open show wobble animated";
-    // TODO: 怎样设置延时？？？
 };
 
 Card.prototype.match = function(){
