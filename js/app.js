@@ -78,10 +78,15 @@ Game.prototype.init = function(){
                         moves++;
                         var unMatchedCard = opens[opens.length - 2];
                         if (unMatchedCard.icon != icon) {
-                            unMatchedCard.close();
-                            card.close();
-                            opens.pop();
-                            opens.pop();
+                            card.unmatch();
+                            unMatchedCard.unmatch();
+                            setTimeout(() => {
+                                unMatchedCard.close();
+                                card.close();
+                                opens.pop();
+                                opens.pop();
+                            }, 1000);
+                            
                             // TODO: checkout the close animation
                         }
                         else {
@@ -106,7 +111,7 @@ Game.prototype.showResult = function(moves){
     var gameBody = this.deckElem.parentNode;
     var star;
     if (moves <= 16) {
-        star = 3
+        star = 3;
     } else if (moves <= 25) {
         star = 2;
     } else {
@@ -150,8 +155,13 @@ Card.prototype.open = function(){
 };
 
 Card.prototype.close = function(){
+    this.elem.className = "card closeOver animated";
+}
+
+Card.prototype.unmatch = function(){
     this.isOpen = false;
-    this.elem.className = "card open show flipOutY animated";
+    this.elem.className = "card open show wobble animated";
+    // TODO: 怎样设置延时？？？
 };
 
 Card.prototype.match = function(){
