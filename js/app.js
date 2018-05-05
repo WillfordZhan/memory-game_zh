@@ -5,7 +5,6 @@
 var GamePanel = function(panel){
     this.starElem = panel.getElementsByClassName("stars")[0];
     this.stars = [];
-    // TODO: refactoring
     this.moveElem = panel.getElementsByClassName("moves")[0];
     this.restart = panel.getElementsByClassName("restart")[0];
 };
@@ -28,7 +27,6 @@ GamePanel.prototype.init = function(moves){
 };
 
 GamePanel.prototype.updateScore = function(moves){
-    // TODO: find the empty star class
     this.moveElem.innerHTML = moves;
     if (moves <= 16) {
 
@@ -61,6 +59,8 @@ var Game = function(icons,deckElem,gamePanel){
 Game.prototype.init = function(){
     this.panel.init();
     var self = this;
+    var timeUsed = 0; // 所用时间
+    var timer; // 定时器
     var moves = 0;
     var opens = [];
     shuffle(self.icons); 
@@ -68,6 +68,12 @@ Game.prototype.init = function(){
         var card = new Card(icon);
         self.deckElem.appendChild(card.elem);
         card.elem.addEventListener('click',function(){
+            if (opens.length == 0) {
+                timer = window.clearInterval(timer);
+                timer = setInterval(()=>{
+                    timeUsed++;
+                },1000);
+            }
             if (card.isOpen == false) {
                 card.open();
                 opens.push(card);
@@ -85,8 +91,6 @@ Game.prototype.init = function(){
                                 unMatchedCard.close();
                                 card.close();
                             }, 1000);
-                            
-                            // TODO: checkout the close animation
                         }
                         else {
                             unMatchedCard.match();
@@ -96,17 +100,20 @@ Game.prototype.init = function(){
                 }
                 self.panel.updateScore(moves);
                 if (opens.length == icons.length) {
-                    // TODO: set result animation
-                    self.showResult(moves);
+                    timer = window.clearInterval(timer);
+                    self.showResult(moves,timeUsed);
                 }
             }
             
         });
     });
+    if (opens.length == 1) {
+        self.beginTiming(timeUsed,timer);
+    }
 };
 
 // Show result after game is over
-Game.prototype.showResult = function(moves){
+Game.prototype.showResult = function(moves,timeUsed){
     var gameBody = this.deckElem.parentNode;
     var star;
     if (moves <= 16) {
@@ -116,7 +123,7 @@ Game.prototype.showResult = function(moves){
     } else {
         star = 1;
     }
-    var rankString = "You used " + moves + " moves and gained a "+ star +"-star, Woooo !!!"
+    var rankString = "You used " + moves + " moves and gained a "+ star +"-star in " + timeUsed+ " s, Woooo !!!"
     gameBody.className = "container empty";
     swal("Congradulations! You won!",rankString, "success", {
         button: "Play again!",
@@ -129,8 +136,6 @@ Game.prototype.restart = function(){
     // Restart the Game
     history.go(0);
 };
-
-
 
 var Card = function(icon){
     this.icon = icon;
@@ -210,14 +215,14 @@ function shuffle(array) {
     return array;
 }
 
-var icons = ['diamond','paper-plane-o','anchor','bolt','cube','leaf','bicycle','bomb','diamond','paper-plane-o','anchor','bolt','cube','leaf','bicycle','bomb'];
+var icons = ['diamond','paper-plane-o','anchor','bolt','cube','leaf','bicycle','bomb'];
+icons = icons.concat(icons);
 var deckElem = document.getElementsByClassName('deck')[0];
 var panel = document.getElementsByClassName('score-panel')[0];
 // TOASK: how to find the dom by class without returning a array
 var gamePanel = new GamePanel(panel);
 var game = new Game(icons,deckElem,gamePanel);
 game.init();
-
 /*
  * 设置一张卡片的事件监听器。 如果该卡片被点击：
  *  - 显示卡片的符号（将这个功能放在你从这个函数中调用的另一个函数中）
